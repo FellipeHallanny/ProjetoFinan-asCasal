@@ -47,3 +47,6 @@ yarn-error.log*
 implementation_plan.md.resolved
 task.md.resolved
 walkthrough.md.resolved
+
+# Local Netlify folder
+.netlify
