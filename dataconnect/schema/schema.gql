@@ -1,0 +1,54 @@
+type Couple @table {
+  name: String
+  createdAt: Timestamp!
+}
+
+type User @table {
+  couple: Couple
+  displayName: String!
+  email: String
+  photoUrl: String
+  createdAt: Timestamp!
+}
+
+type Transaction @table {
+  couple: Couple
+  user: User
+  amount: Float!
+  type: String!
+  description: String!
+  date: Date!
+  category: Category
+  createdAt: Timestamp!
+}
+
+type Category @table {
+  couple: Couple
+  name: String!
+  type: String!
+}
+
+type Goal @table {
+  couple: Couple
+  name: String!
+  targetAmount: Float!
+  currentAmount: Float!
+  description: String
+  targetDate: Date
+  createdAt: Timestamp!
+}
+
+type Budget @table {
+  couple: Couple
+  name: String!
+  startDate: Date!
+  endDate: Date!
+  description: String
+  createdAt: Timestamp!
+}
+
+type BudgetItem @table {
+  budget: Budget!
+  category: Category!
+  budgetedAmount: Float!
+}

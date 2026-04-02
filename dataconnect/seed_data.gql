@@ -1,0 +1,91 @@
+mutation CreateSeedData @transaction @auth(level: USER, insecureReason: "This operation is for seeding data, and should only be run by authenticated users with appropriate permissions.") {
+  couple1: couple_insert(data: {
+    id: "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    name: "John and Jane Doe",
+    createdAt: "2023-01-01T00:00:00Z"
+  })
+  couple2: couple_insert(data: {
+    id: "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a22",
+    name: "Alice and Bob Smith",
+    createdAt: "2023-01-15T00:00:00Z"
+  })
+
+  user1: user_insert(data: {
+    id: "c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a33",
+    coupleId: "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    displayName: "John Doe",
+    email: "john.doe@example.com",
+    createdAt: "2023-01-01T00:00:00Z"
+  })
+  user2: user_insert(data: {
+    id: "d0eebc99-9c0b-4ef8-bb6d-6bb9bd380a44",
+    coupleId: "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    displayName: "Jane Doe",
+    email: "jane.doe@example.com",
+    createdAt: "2023-01-01T00:00:00Z"
+  })
+
+  category1: category_insert(data: {
+    id: "e0eebc99-9c0b-4ef8-bb6d-6bb9bd380a55",
+    coupleId: "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    name: "Groceries",
+    type: "Expense"
+  })
+  category2: category_insert(data: {
+    id: "f0eebc99-9c0b-4ef8-bb6d-6bb9bd380a66",
+    coupleId: "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    name: "Salary",
+    type: "Income"
+  })
+
+  budget1: budget_insert(data: {
+    id: "10eebc99-9c0b-4ef8-bb6d-6bb9bd380a77",
+    coupleId: "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    name: "Monthly Budget Jan 2023",
+    startDate: "2023-01-01",
+    endDate: "2023-01-31",
+    description: "Budget for January 2023",
+    createdAt: "2023-01-01T00:00:00Z"
+  })
+
+  budgetItem1: budgetItem_insert(data: {
+    id: "20eebc99-9c0b-4ef8-bb6d-6bb9bd380a88",
+    budgetId: "10eebc99-9c0b-4ef8-bb6d-6bb9bd380a77",
+    categoryId: "e0eebc99-9c0b-4ef8-bb6d-6bb9bd380a55",
+    budgetedAmount: 500.00
+  })
+
+  transaction1: transaction_insert(data: {
+    id: "30eebc99-9c0b-4ef8-bb6d-6bb9bd380a99",
+    coupleId: "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    userId: "c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a33",
+    amount: -75.50,
+    type: "Expense",
+    description: "Weekly groceries",
+    date: "2023-01-05",
+    categoryId: "e0eebc99-9c0b-4ef8-bb6d-6bb9bd380a55",
+    createdAt: "2023-01-05T10:30:00Z"
+  })
+  transaction2: transaction_insert(data: {
+    id: "40eebc99-9c0b-4ef8-bb6d-6bb9bd380aa0",
+    coupleId: "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    userId: "d0eebc99-9c0b-4ef8-bb6d-6bb9bd380a44",
+    amount: 2500.00,
+    type: "Income",
+    description: "Monthly salary",
+    date: "2023-01-10",
+    categoryId: "f0eebc99-9c0b-4ef8-bb6d-6bb9bd380a66",
+    createdAt: "2023-01-10T09:00:00Z"
+  })
+
+  goal1: goal_insert(data: {
+    id: "50eebc99-9c0b-4ef8-bb6d-6bb9bd380ab1",
+    coupleId: "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    name: "New Car",
+    targetAmount: 20000.00,
+    currentAmount: 5000.00,
+    description: "Saving for a new family car",
+    targetDate: "2024-12-31",
+    createdAt: "2023-03-01T00:00:00Z"
+  })
+}

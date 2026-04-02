@@ -1,0 +1,53 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null && request.auth.uid != null;
+    }
+    
+    function getUserFamilyId() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.familyId;
+    }
+
+    function isFamilyMember(familyId) {
+      return isAuthenticated() && getUserFamilyId() == familyId;
+    }
+
+    // users collection
+    match /users/{uid} {
+      allow read: if request.auth.uid == uid;
+      allow write: if request.auth.uid == uid;
+    }
+
+    // families collection and subcollections
+    match /families/{familyId} {
+      allow read: if isFamilyMember(familyId);
+      // Only users who do not have a family or creating a new one can write
+      allow write: if isAuthenticated();
+
+      match /creditCards/{cardId} {
+        allow read, write: if isFamilyMember(familyId);
+      }
+      
+      match /transactions/{transactionId} {
+        allow read, write: if isFamilyMember(familyId);
+      }
+      
+      match /goals/{goalId} {
+        allow read, write: if isFamilyMember(familyId);
+      }
+      
+      match /categoryPatterns/{categoryId} {
+        allow read, write: if isFamilyMember(familyId);
+      }
+    }
+  }
+}

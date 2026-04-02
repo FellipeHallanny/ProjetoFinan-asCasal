@@ -1,0 +1,38 @@
+query ListAllCategories @auth(level: USER, insecureReason: "This operation is safe to expose to all logged in users.") {
+  categories {
+    id
+    name
+    type
+    couple {
+      id
+      name
+    }
+  }
+}
+
+query GetUserBudgets($coupleId: UUID!) @auth(level: USER) {
+  budgets(where: {coupleId: {eq: $coupleId}}) {
+    id
+    name
+    startDate
+    endDate
+    description
+  }
+}
+
+mutation CreateNewTransaction($coupleId: UUID!, $userId: UUID!, $amount: Float!, $type: String!, $description: String!, $date: Date!, $categoryId: UUID) @auth(level: USER) {
+  transaction_insert(data: {
+    coupleId: $coupleId,
+    userId: $userId,
+    amount: $amount,
+    type: $type,
+    description: $description,
+    date: $date,
+    categoryId: $categoryId,
+    createdAt_expr: "request.time"
+  })
+}
+
+mutation UpdateGoalAmount($goalId: UUID!, $newAmount: Float!) @auth(level: USER) {
+  goal_update(key: {id: $goalId}, data: {currentAmount: $newAmount})
+}
