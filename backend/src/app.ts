@@ -24,8 +24,15 @@ const apiLimiter = rateLimit({
 });
 
 // Middlewares
-app.use(helmet());
-app.use(cors());
+app.use(cors({
+  origin: ['https://financacasal.netlify.app', 'http://localhost:3000', 'http://localhost:5173'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+}));
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: 'cross-origin' }
+}));
 app.use(express.json());
 app.use('/api/', apiLimiter); // Apply rate limiter to all /api routes
 
